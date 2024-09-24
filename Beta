@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tsunami - Airdrop</title>
+  <style>
+    body {
+      background-color: #001f3f;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-around;
+      background-color: #004080;
+      padding: 10px 0;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+
+    .navbar button {
+      background-color: #006699;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .navbar button:hover {
+      background-color: #FFD700;
+    }
+
+    .section {
+      display: none;
+      padding: 50px 20px;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .content {
+      padding-bottom: 70px; /* Space for the navbar */
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Mine Section -->
+  <div id="mine-section" class="section active">
+    <h1>Mine Tokens</h1>
+    <div class="coin-count">You have: <span id="coin-count">0</span> coins</div>
+    <div class="energy">Energy: <span id="energy-count">10000</span>/10000</div>
+    <button id="mine-button" onclick="mineCoins()">Click to Mine</button>
+  </div>
+
+  <!-- Total Section -->
+  <div id="total-section" class="section">
+    <h1>Total Tokens</h1>
+    <div class="stats">Total Mined: 976,469,639,693,087</div>
+    <div class="stats">Total Players: 70,772,631</div>
+    <div class="stats">Daily Users: 7,804,359</div>
+    <div class="stats">Online Players: 179,402</div>
+  </div>
+
+  <!-- Boosts Section -->
+  <div id="boosts-section" class="section">
+    <h1>Boosts</h1>
+    <div class="boosts">
+      <button onclick="activateBoost(3)">3x Boost</button>
+      <button onclick="activateBoost(5)">5x Boost</button>
+    </div>
+    <div class="energy">
+      <button onclick="fullEnergy()">Full Energy</button>
+    </div>
+  </div>
+
+  <!-- Friends Section -->
+  <div id="friends-section" class="section">
+    <h1>Invite Your Friends</h1>
+    <div class="referral-code">Your Referral Code: <strong id="referral-code">ABC123</strong></div>
+    <button class="invite-btn" onclick="copyReferralCode()">Copy Referral Code</button>
+    <h2>Invited Friends</h2>
+    <div class="friends-list">
+      <div class="friend-item">Friend 1 (ID: 123456)</div>
+      <div class="friend-item">Friend 2 (ID: 789012)</div>
+      <div class="friend-item">Friend 3 (ID: 345678)</div>
+    </div>
+  </div>
+
+  <!-- Tasks Section -->
+  <div id="tasks-section" class="section">
+    <h1>Your Tasks</h1>
+    <p>Complete tasks to earn more tokens!</p>
+    <ul>
+      <li>Task 1: Join Telegram Channel</li>
+      <li>Task 2: Follow Twitter</li>
+      <li>Task 3: Invite 3 Friends</li>
+    </ul>
+  </div>
+
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <button onclick="showSection('mine-section')">Mine</button>
+    <button onclick="showSection('total-section')">Total</button>
+    <button onclick="showSection('boosts-section')">Boosts</button>
+    <button onclick="showSection('friends-section')">Friends</button>
+    <button onclick="showSection('tasks-section')">Tasks</button>
+  </div>
+
+  <script>
+    // Navigation between sections
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+    }
+
+    // Mining functionality for the mine section
+    let coins = 0;
+    let energy = 10000;
+
+    function mineCoins() {
+      if (energy > 0) {
+        coins += 500;
+        energy -= 100;
+        document.getElementById('coin-count').innerText = coins;
+        document.getElementById('energy-count').innerText = energy;
+
+        if (energy === 0) {
+          document.getElementById('mine-button').disabled = true;
+          alert('Energy exhausted! Please wait for recharge.');
+        }
+      }
+    }
+
+    // Recharge energy
+    setInterval(() => {
+      if (energy < 10000) {
+        energy += 100;
+        document.getElementById('energy-count').innerText = energy;
+        if (energy > 0) {
+          document.getElementById('mine-button').disabled = false;
+        }
+      }
+    }, 60000);
+
+    // Boosts functionality
+    function activateBoost(multiplier) {
+      alert(multiplier + "x Boost Activated!");
+    }
+
+    function fullEnergy() {
+      alert("Full Energy Restored!");
+    }
+
+    // Copy referral code in friends section
+    function copyReferralCode() {
+      const code = document.getElementById('referral-code').textContent;
+      navigator.clipboard.writeText(code).then(function() {
+        alert('Referral Code copied: ' + code);
+      });
+    }
+  </script>
+
+</body>
+</html>
